@@ -1,0 +1,105 @@
+@startuml
+
+' === Core domain classes ===
+class User {
+  - id : int
+  - firstName : string
+  - lastName : string
+  - login : string
+  - passwordHash : string
+}
+
+class Color {
+  - id : int
+  - name : string
+  - userId : int
+}
+
+class Contact {
+  - id : int
+  - firstName : string
+  - lastName : string
+  - phone : string
+  - email : string
+  - userId : int
+}
+
+User "1" -- "0..*" Color : owns >
+User "1" -- "0..*" Contact : owns >
+
+' === Persistence / DB access ===
+class DatabaseConnection {
+  - host : string
+  - username : string
+  - password : string
+  - database : string
+  + connect() : void
+  + query(sql : string) : ResultSet
+}
+
+class UserRepository {
+  + findByLogin(login : string) : User
+  + verifyCredentials(login : string, password : string) : User
+}
+
+class ColorRepository {
+  + addColor(color : Color) : void
+  + searchColors(userId : int, term : string) : List<Color>
+  + deleteColor(id : int, userId : int) : void
+}
+
+class ContactRepository {
+  + addContact(contact : Contact) : void
+  + searchContacts(userId : int, term : string) : List<Contact>
+  + deleteContact(id : int, userId : int) : void
+}
+
+DatabaseConnection <.. UserRepository
+DatabaseConnection <.. ColorRepository
+DatabaseConnection <.. ContactRepository
+
+' === API layer (PHP scripts in LAMPAPI) ===
+class LoginAPI {
+  + handleRequest(jsonRequest) : jsonResponse
+}
+
+class ColorAPI {
+  + addColor(jsonRequest) : jsonResponse
+  + searchColors(jsonRequest) : jsonResponse
+  + deleteColor(jsonRequest) : jsonResponse
+}
+
+class ContactAPI {
+  + addContact(jsonRequest) : jsonResponse
+  + searchContacts(jsonRequest) : jsonResponse
+  + deleteContact(jsonRequest) : jsonResponse
+}
+
+LoginAPI ..> UserRepository
+ColorAPI ..> ColorRepository
+ContactAPI ..> ContactRepository
+
+' === Frontend (JS + HTML) ===
+class FrontendController {
+  - urlBase : string
+  + doLogin() : void
+  + addColor() : void
+  + searchColors() : void
+  + addContact() : void
+  + searchContacts() : void
+  + handleResponses() : void
+}
+
+class SessionState {
+  - userId : int
+  - firstName : string
+  - lastName : string
+  + isLoggedIn() : bool
+}
+
+FrontendController ..> LoginAPI : "via HTTP/JSON"
+FrontendController ..> ColorAPI : "via HTTP/JSON"
+FrontendController ..> ContactAPI : "via HTTP/JSON"
+FrontendController ..> SessionState
+
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+actor "User" as U
+actor "MySQL Database" as DB
+
+rectangle "COLORs Web App" {
+  usecase "Log In" as UC_Login
+  usecase "View Dashboard" as UC_Dashboard
+  usecase "Add Color" as UC_AddColor
+  usecase "Search Colors" as UC_SearchColors
+  usecase "Delete Color" as UC_DeleteColor
+  usecase "Add Contact" as UC_AddContact
+  usecase "Search Contacts" as UC_SearchContacts
+  usecase "Delete Contact" as UC_DeleteContact
+  usecase "Log Out" as UC_Logout
+
+  UC_Dashboard .> UC_AddColor : <<include>>
+  UC_Dashboard .> UC_SearchColors : <<include>>
+  UC_Dashboard .> UC_AddContact : <<include>>
+  UC_Dashboard .> UC_SearchContacts : <<include>>
+}
+
+U --> UC_Login
+U --> UC_Logout
+U --> UC_Dashboard
+
+UC_AddColor --> DB : "Create Color"
+UC_SearchColors --> DB : "Read Colors"
+UC_DeleteColor --> DB : "Delete Color"
+
+UC_AddContact --> DB : "Create Contact"
+UC_SearchContacts --> DB : "Read Contacts"
+UC_DeleteContact --> DB : "Delete Contact"
+
+UC_Login --> DB : "Validate Credentials"
+
+@enduml

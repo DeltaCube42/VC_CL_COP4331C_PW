@@ -1,0 +1,59 @@
+@startuml
+start
+
+:Open index.html in browser;
+:Enter login and password;
+:Click 'Login';
+
+if (Credentials valid?) then (yes)
+  :Create user session;
+  :Load color.html (dashboard);
+else (no)
+  :Show error message;
+  :Stay on login page;
+  stop
+endif
+
+repeat
+  :User chooses action;
+
+  if (Add Color?) then (yes)
+    :Enter color name;
+    :Send request to LAMPAPI (addColor.php);
+    :API inserts Color row in DB;
+    :Show success / error;
+  endif
+
+  if (Search Colors?) then (yes)
+    :Enter search text;
+    :Send request to LAMPAPI (searchColors.php);
+    :API queries Colors table;
+    :Return list of matching colors;
+    :Render results in page;
+  endif
+
+  if (Add Contact?) then (yes)
+    :Enter contact info (name, phone, email);
+    :Send request to LAMPAPI (addContact.php);
+    :API inserts Contact row in DB;
+    :Show success / error;
+  endif
+
+  if (Search Contacts?) then (yes)
+    :Enter search text;
+    :Send request to LAMPAPI (searchContacts.php);
+    :API queries Contacts table;
+    :Return list of matching contacts;
+    :Render results in page;
+  endif
+
+  if (Logout?) then (yes)
+    :Clear session on client;
+    :Redirect to index.html;
+    break
+  endif
+
+repeat while (More actions?)
+
+stop
+@enduml
