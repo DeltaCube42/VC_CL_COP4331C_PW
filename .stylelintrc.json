@@ -1,4 +1,10 @@
 {
   "extends": "stylelint-config-standard",
-  "rules": {}
+  "rules": {
+    "selector-id-pattern": null,
+    "font-family-name-quotes": "always-where-recommended",
+    "color-hex-length": "long",
+    "alpha-value-notation": "percentage",
+    "rule-empty-line-before": null
+  }
 }
