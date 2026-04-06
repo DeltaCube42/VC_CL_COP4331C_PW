@@ -1,0 +1,11 @@
+{
+  "name": "vc_cl_cop4331c_pw",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "stylelint": "^16.0.0",
+    "stylelint-config-standard": "^36.0.0",
+    "htmlhint": "^1.1.0"
+  }
+}
