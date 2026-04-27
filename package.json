@@ -8,4 +8,7 @@
     "stylelint-config-standard": "^36.0.0",
     "htmlhint": "^1.1.0"
   }
+  "scripts": {
+    "test": "jest"
+  }
 }
